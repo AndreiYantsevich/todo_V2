@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, FC, useState} from 'react';
 import {FilterValueType} from './App';
+import {AddItemForm} from './AddItemForm';
 
 export type TaskType = {
     id: string
@@ -30,49 +31,18 @@ export const Todolist: FC<PropsType> = ({
                                             filter,
                                             removeTodolist
                                         }) => {
-    const [value, setValue] = useState('')
-    const [error, setError] = useState<string | null>(null)
-
-    const changeValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
-    }
-
-    const addTaskHandler = () => {
-        if (value.trim() !== '') {
-            addTask(value, id)
-            setValue('')
-        } else {
-            setError('Title is required')
-        }
-    }
-
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        if (e.key === 'Enter') {
-            addTaskHandler();
-        }
-    }
-
     const onAllClickHandler = () => changeFilter('all', id);
     const onActiveClickHandler = () => changeFilter('active', id);
     const onCompletedClickHandler = () => changeFilter('completed', id);
-
     const removeTodolistHandler = () => removeTodolist(id);
+    const addTaskHandler = (value: string) => addTask(value, id)
 
     return (
         <div>
             <h3>{title}
             <button onClick={removeTodolistHandler}>X</button>
             </h3>
-            <div>
-                <input value={value}
-                       onChange={changeValueHandler}
-                       onKeyPress={onKeyPressHandler}
-                       className={error ? 'error' : ''}
-                />
-                <button onClick={addTaskHandler}>+</button>
-                {error ? <div className="error-message">{error}</div> : ''}
-            </div>
+            <AddItemForm addItem={addTaskHandler}/>
             <ul>
                 {
                     tasks.map(task => {
