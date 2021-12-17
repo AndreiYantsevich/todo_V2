@@ -22,13 +22,6 @@ function App() {
         {id: todolistId1, title: 'What to learn', filter: 'all'},
         {id: todolistId2, title: 'What to buy', filter: 'all'}
     ])
-    /*const [tasks, setTasks] = useState([
-        {id: v1(), title: 'HTML', isDone: true},
-        {id: v1(), title: 'CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: false},
-        {id: v1(), title: 'REST API', isDone: false},
-        {id: v1(), title: 'React', isDone: true},
-    ])*/
     const [tasks, setTasks] = useState<TaskStateType>({
         [todolistId1]: [
             {id: v1(), title: 'HTML', isDone: true},
