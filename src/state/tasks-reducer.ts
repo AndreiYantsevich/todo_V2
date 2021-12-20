@@ -5,6 +5,7 @@ type ActionType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof changeTaskStatusAC>
+    | ReturnType<typeof changeTaskTitleAC>
 
 
 export const tasksReducer = (state: TaskStateType, action: ActionType): TaskStateType => {
@@ -30,6 +31,14 @@ export const tasksReducer = (state: TaskStateType, action: ActionType): TaskStat
                 task.isDone = action.isDone
             }
             return {...state}
+        case 'CHANGE-TASK-TITLE': {
+            let tasks = state[action.todolistId]
+            let task = tasks.find(tl => tl.id === action.id)
+            if (task) {
+                task.title = action.title
+            }
+            return {...state}
+        }
         default:
             throw new Error('I dont understand')
     }
@@ -46,6 +55,7 @@ export const addTaskAC = (value: string, todolistId: string) => ({
     todolistId
 } as const)
 export const changeTaskStatusAC = (id: string, isDone: boolean, todolistId: string) => ({type: 'CHANGE-TASK-STATUS', id, isDone, todolistId} as const)
+export const changeTaskTitleAC = (id: string, title: string, todolistId: string) => ({type: 'CHANGE-TASK-TITLE', id, title, todolistId} as const)
 
 
 
