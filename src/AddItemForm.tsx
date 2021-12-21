@@ -1,10 +1,11 @@
-import React, {ChangeEvent, FC, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 
 type PropsType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm: FC<PropsType> = ({addItem}) => {
+export const AddItemForm: FC<PropsType> = memo(({addItem}) => {
+    console.log('AddItemForm called')
     const [value, setValue] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -22,7 +23,9 @@ export const AddItemForm: FC<PropsType> = ({addItem}) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null);
+        }
         if (e.key === 'Enter') {
             addItemHandler();
         }
@@ -39,4 +42,4 @@ export const AddItemForm: FC<PropsType> = ({addItem}) => {
             {error ? <div className="error-message">{error}</div> : ''}
         </div>
     )
-}
+})

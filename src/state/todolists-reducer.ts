@@ -1,4 +1,4 @@
-import {FilterValueType, TaskStateType, TodolistType} from '../App';
+import {FilterValueType, TodolistType} from '../App';
 import {v1} from 'uuid';
 
 export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>;
