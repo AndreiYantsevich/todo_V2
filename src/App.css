@@ -1,3 +1,4 @@
+/*
 .App {
   padding: 30px;
   display: flex;
@@ -8,7 +9,7 @@
 }
 
 .error {
-  border: 1px solid red;
+  border: red 1px solid;
 }
 
 .error-message {
@@ -22,3 +23,4 @@
 .is-done {
   opacity: 0.5;
 }
+*/
