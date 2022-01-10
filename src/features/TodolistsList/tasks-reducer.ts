@@ -90,11 +90,13 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
 }
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTaskAC(taskId, todolistId))
                 dispatch(setAppStatusAC('succeeded'))
+                dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
@@ -123,6 +125,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
         if (!task) {
@@ -146,6 +149,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                 if (res.data.resultCode === 0) {
                     dispatch(updateTaskAC(taskId, domainModel, todolistId))
                     dispatch(setAppStatusAC('succeeded'))
+                    dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }

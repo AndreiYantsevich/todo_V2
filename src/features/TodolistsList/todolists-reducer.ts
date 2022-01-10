@@ -89,8 +89,8 @@ export const fetchTodolistsTC = () => {
 }
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
-        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
                 if (res.data.resultCode === 0) {
@@ -126,11 +126,13 @@ export const addTodolistTC = (title: string) => {
 export const changeTodolistTitleTC = (id: string, title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(id, 'loading'))
         todolistsAPI.updateTodolist(id, title)
             .then((res) => {
                 if (res.data.resultCode === 0) {
                     dispatch(changeTodolistTitleAC(id, title))
                     dispatch(setAppStatusAC('succeeded'))
+                    dispatch(changeTodolistEntityStatusAC(id, 'succeeded'))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
