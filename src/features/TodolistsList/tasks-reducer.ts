@@ -1,5 +1,7 @@
 import {
-    AddTodolistActionType, changeTodolistEntityStatusAC, ChangeTodolistEntityStatusType,
+    AddTodolistActionType,
+    changeTodolistEntityStatusAC,
+    ChangeTodolistEntityStatusType,
     RemoveTodolistActionType,
     SetTodolistsActionType
 } from './todolists-reducer'
@@ -13,11 +15,11 @@ import {
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
 import {
-    setAppErrorAC,
-    setAppErrorType,
+    SetAppErrorActionType,
     setAppStatusAC,
-    setAppStatusType
+    SetAppStatusActionType
 } from '../../app/app-reducer';
+import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils';
 
 const initialState: TasksStateType = {}
 
@@ -74,19 +76,31 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
-            const tasks = res.data.items
-            const action = setTasksAC(tasks, todolistId)
-            dispatch(action)
-            dispatch(setAppStatusAC('succeeded'))
+            if (res.data.items) {
+                const tasks = res.data.items
+                dispatch(setTasksAC(tasks, todolistId))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data.items, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
-            const action = removeTaskAC(taskId, todolistId)
-            dispatch(action)
-            dispatch(setAppStatusAC('succeeded'))
+            if (res.data.resultCode === 0) {
+                dispatch(removeTaskAC(taskId, todolistId))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -99,14 +113,11 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
                 dispatch(setAppStatusAC('succeeded'))
                 dispatch(changeTodolistEntityStatusAC(todolistId, 'succeeded'))
             } else {
-                if (res.data.messages.length) {
-                    dispatch(setAppErrorAC(res.data.messages[0]))
-                } else {
-                    dispatch(setAppErrorAC('Some error occurred'))
-                }
-                dispatch(setAppStatusAC('failed'))
+                handleServerAppError(res.data, dispatch)
             }
-
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
@@ -132,9 +143,15 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                const action = updateTaskAC(taskId, domainModel, todolistId)
-                dispatch(action)
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    dispatch(updateTaskAC(taskId, domainModel, todolistId))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(res.data, dispatch)
+                }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
             })
     }
 
@@ -158,6 +175,6 @@ type ActionsType =
     | RemoveTodolistActionType
     | SetTodolistsActionType
     | ReturnType<typeof setTasksAC>
-    | setAppStatusType
-    | setAppErrorType
+    | SetAppStatusActionType
+    | SetAppErrorActionType
     | ChangeTodolistEntityStatusType
