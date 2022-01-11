@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f8ce6c6-303d-4840-8456-c671d2b61a4e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/EditableSpan/EditableSpan.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EditableSpan/EditableSpan.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EditableSpan/EditableSpan.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/TodolistsList/Todolist/Task/Task.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/TodolistsList/Todolist/Task/Task.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/TodolistsList/Todolist/Todolist.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/TodolistsList/Todolist/Todolist.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/todolists-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/todolists-api.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/TodolistsList/tasks-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/TodolistsList/tasks-reducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/features/TodolistsList/todolists-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/TodolistsList/todolists-reducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +39,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../social" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="MTHome" />
     <property name="ts.external.directory.path" value="D:\todo_V2\node_modules\typescript\lib" />
@@ -58,7 +54,9 @@
       <option name="presentableId" value="Default" />
       <updated>1640268115783</updated>
       <workItem from="1640268119374" duration="219000" />
-      <workItem from="1641768077940" duration="12927000" />
+      <workItem from="1641768077940" duration="13370000" />
+      <workItem from="1641834568693" duration="1412000" />
+      <workItem from="1641897301819" duration="2905000" />
     </task>
     <servers />
   </component>
