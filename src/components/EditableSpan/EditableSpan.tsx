@@ -1,12 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
-import style from './EditableSpan.module.css'
 import TextField from '@mui/material/TextField';
-
 
 type EditableSpanPropsType = {
     value: string
     onChange: (newValue: string) => void
-    disabled: boolean | undefined
 }
 
 export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
@@ -28,5 +25,5 @@ export const EditableSpan = React.memo(function (props: EditableSpanPropsType) {
 
     return editMode
         ? <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode}/>
-        : <span onDoubleClick={activateEditMode} className={props.disabled ? style.disabledSpan : ''}>{props.value}</span>
+        : <span onDoubleClick={activateEditMode}>{props.value}</span>
 });
