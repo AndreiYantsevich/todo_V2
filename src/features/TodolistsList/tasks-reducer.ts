@@ -1,18 +1,39 @@
-import { AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType } from './todolists-reducer'
-import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from '../../api/todolists-api'
-import { Dispatch } from 'redux'
-import { AppRootStateType } from '../../app/store'
-import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from '../../app/app-reducer'
-import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
+import {
+    AddTodolistActionType,
+    ClearTodolistsDataActionType,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from './todolists-reducer'
+import {
+    TaskPriorities,
+    TaskStatuses,
+    TaskType,
+    todolistsAPI,
+    UpdateTaskModelType
+} from '../../api/todolists-api'
+import {Dispatch} from 'redux'
+import {AppRootStateType} from '../../app/store'
+import {
+    SetAppErrorActionType,
+    setAppStatusAC,
+    SetAppStatusActionType
+} from '../../app/app-reducer'
+import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
-            return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)
+            }
         case 'ADD-TASK':
-            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
+            return {
+                ...state,
+                [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]
+            }
         case 'UPDATE-TASK':
             return {
                 ...state,
@@ -26,6 +47,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete copyState[action.id]
             return copyState
         case 'SET-TODOLISTS': {
+            debugger
             const copyState = {...state}
             action.todolists.forEach(tl => {
                 copyState[tl.id] = []
@@ -33,14 +55,21 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return copyState
         }
         case 'SET-TASKS':
+            debugger
             return {...state, [action.todolistId]: action.tasks}
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }
 }
 
 // actions
-export const removeTaskAC = (taskId: string, todolistId: string) => ({type: 'REMOVE-TASK', taskId, todolistId} as const)
+export const removeTaskAC = (taskId: string, todolistId: string) => ({
+    type: 'REMOVE-TASK',
+    taskId,
+    todolistId
+} as const)
 export const addTaskAC = (task: TaskType) => ({type: 'ADD-TASK', task} as const)
 export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
     type: 'UPDATE-TASK',
@@ -142,4 +171,5 @@ type ActionsType =
     | RemoveTodolistActionType
     | SetTodolistsActionType
     | ReturnType<typeof setTasksAC>
+    | ClearTodolistsDataActionType
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
